@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign 2.0 · 运营自查手册</title>
+<style>
+:root {
+  --bg: #f5f6fa;
+  --white: #ffffff;
+  --border: #e4e6ef;
+  --text: #1a1d2e;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --accent-border: #bfdbfe;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: #fecaca;
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --amber-border: #fde68a;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --green-border: #bbf7d0;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --purple-border: #ddd6fe;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 56px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.logo span { color: var(--accent); }
+
+.search-wrap {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+#search {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: var(--white);
+}
+
+.header-stats {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.stat {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.stat strong { color: var(--text); font-weight: 600; }
+
+/* ===== LAYOUT ===== */
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: sticky;
+  top: 80px;
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding: 0 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.nav-item:hover { background: var(--white); color: var(--text); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+
+.nav-count {
+  margin-left: auto;
+  font-size: 11px;
+  background: var(--border);
+  color: var(--text-muted);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.nav-item.active .nav-count {
+  background: rgba(37,99,235,0.15);
+  color: var(--accent);
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+/* ===== MAIN ===== */
+.main { min-width: 0; }
+
+/* ===== QUICK ENTRY ===== */
+.quick-entry {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.quick-entry h2 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.quick-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+
+.quick-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.quick-btn .q-icon { display: block; font-size: 16px; margin-bottom: 4px; }
+
+/* ===== SEARCH RESULTS ===== */
+#search-results-section { display: none; }
+#search-results-section.active { display: block; }
+
+.results-header {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.results-header strong { color: var(--text); }
+
+/* ===== SECTION ===== */
+.section { margin-bottom: 24px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.section-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.section-header .count {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* ===== CARD ===== */
+.cards { display: flex; flex-direction: column; gap: 8px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s;
+}
+
+.card:hover { box-shadow: var(--shadow-md); }
+
+.card-trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.card-trigger:hover { background: #fafafa; }
+
+.card-type {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.card-main { flex: 1; min-width: 0; }
+
+.symptom {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.symptom mark {
+  background: #fef08a;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.symptom-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.stag {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.card-toggle {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.2s;
+}
+
+.card.open .card-toggle {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  transform: rotate(45deg);
+}
+
+.card-body {
+  display: none;
+  padding: 0 16px 16px 36px;
+  border-top: 1px solid var(--border);
+}
+
+.card.open .card-body { display: block; }
+
+/* ===== CARD BODY CONTENT ===== */
+.reason-block, .fix-block, .note-block, .escalate-block {
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+
+.reason-block {
+  background: var(--red-light);
+  border-left: 3px solid var(--red);
+}
+
+.fix-block {
+  background: var(--green-light);
+  border-left: 3px solid var(--green);
+}
+
+.note-block {
+  background: var(--amber-light);
+  border-left: 3px solid var(--amber);
+}
+
+.escalate-block {
+  background: var(--purple-light);
+  border-left: 3px solid var(--purple);
+}
+
+.block-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.reason-block .block-label { color: var(--red); }
+.fix-block .block-label { color: var(--green); }
+.note-block .block-label { color: var(--amber); }
+.escalate-block .block-label { color: var(--purple); }
+
+.block-content {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.block-content strong { font-weight: 600; }
+
+.block-content ol, .block-content ul {
+  padding-left: 16px;
+  margin-top: 4px;
+}
+
+.block-content li { margin-bottom: 4px; }
+
+.code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  background: rgba(0,0,0,0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* ===== BEST PRACTICES BOX ===== */
+.best-practice {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 8px;
+}
+
+.bp-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--accent-light);
+  border-bottom: 1px solid var(--accent-border);
+}
+
+.bp-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.bp-body {
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.bp-body li { margin-bottom: 6px; list-style: none; padding-left: 0; }
+.bp-body li::before { content: '→ '; color: var(--accent); font-weight: 700; }
+
+/* ===== ESCALATE TABLE ===== */
+.escalate-table {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.et-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.et-row:last-child { border-bottom: none; }
+
+.et-type {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 140px;
+  color: var(--text);
+  padding-top: 1px;
+}
+
+.et-action {
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+/* ===== HIDDEN ===== */
+.hidden { display: none !important; }
+
+/* ===== NO RESULTS ===== */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.no-results p { margin-top: 8px; font-size: 13px; }
+
+/* ===== COLOR UTILITIES ===== */
+.c-red { color: var(--red); }
+.c-green { color: var(--green); }
+.c-amber { color: var(--amber); }
+.c-blue { color: var(--accent); }
+.c-purple { color: var(--purple); }
+
+.bg-red { background: var(--red-light); }
+.bg-green { background: var(--green-light); }
+.bg-amber { background: var(--amber-light); }
+.bg-blue { background: var(--accent-light); }
+.bg-purple { background: var(--purple-light); }
+
+.dot-red { background: var(--red); }
+.dot-amber { background: var(--amber); }
+.dot-green { background: var(--green); }
+.dot-blue { background: var(--accent); }
+.dot-purple { background: var(--purple); }
+
+.tag-red { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
+.tag-amber { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
+.tag-green { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+.tag-blue { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
+.tag-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; padding: 16px; }
+  .sidebar { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+  .sidebar-title { display: none; }
+  .sidebar-divider { display: none; }
+  .nav-item { font-size: 12px; padding: 5px 8px; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-stats { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">Campaign <span>2.0</span> · 运营自查手册</div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="输入报错信息或症状描述，例如：上传报错、产品不显示…" autocomplete="off">
+    </div>
+    <div class="header-stats">
+      <div class="stat"><strong>6</strong> 问题分类</div>
+      <div class="stat"><strong>20+</strong> 已验证解法</div>
+      <div class="stat"><strong>331</strong> 条群聊沉淀</div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-title">分类导航</div>
+    <a class="nav-item active" onclick="filterSection('all', this)">
+      <span>📋</span> 全部问题 <span class="nav-count">20</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('config', this)">
+      <span>⚙️</span> 系统配置 <span class="nav-count">3</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('upload', this)">
+      <span>📤</span> 上传报错 <span class="nav-count">5</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('pool', this)">
+      <span>🗂️</span> 选品池异常 <span class="nav-count">4</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('id', this)">
+      <span>🔑</span> ID 匹配问题 <span class="nav-count">3</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('display', this)">
+      <span>🖥️</span> 页面展示异常 <span class="nav-count">4</span>
+    </a>
+    <a class="nav-item" onclick="filterSection('qa', this)">
+      <span>✅</span> QA 测试 <span class="nav-count">2</span>
+    </a>
+    <div class="sidebar-divider"></div>
+    <a class="nav-item" onclick="filterSection('best', this)">
+      <span>⭐</span> 最佳实践
+    </a>
+    <a class="nav-item" onclick="filterSection('escalate', this)">
+      <span>📞</span> 找谁处理
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- SEARCH RESULTS -->
+    <div id="search-results-section">
+      <div class="results-header" id="results-header"></div>
+      <div class="cards" id="search-results-list"></div>
+      <div class="no-results hidden" id="no-results">
+        <div style="font-size:32px">🤷</div>
+        <p>没找到匹配的问题，试试换个关键词</p>
+        <p style="margin-top:8px">或者直接去报错群描述问题，提供：<strong>系统链接 + ID + 截图 + 操作步骤</strong></p>
+      </div>
+    </div>
+
+    <!-- QUICK ENTRY -->
+    <div class="quick-entry" id="quick-entry-section">
+      <h2>🚀 快速定位你的问题</h2>
+      <div class="quick-grid">
+        <button class="quick-btn" onclick="quickSearch('上传报错 NumberFormat')">
+          <span class="q-icon">❌</span>Excel上传报错<br><span style="color:#9ca3af;font-size:11px">NumberFormatException</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('产品上传成功 页面不展示')">
+          <span class="q-icon">👻</span>产品上传了<br><span style="color:#9ca3af;font-size:11px">但页面不显示</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('选品池 无产品 数量少')">
+          <span class="q-icon">📭</span>选品池无产品<br><span style="color:#9ca3af;font-size:11px">或数量很少</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('价格异常 优惠价高于划线价')">
+          <span class="q-icon">💰</span>价格显示异常<br><span style="color:#9ca3af;font-size:11px">优惠价 > 划线价</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('时区错误')">
+          <span class="q-icon">🕐</span>秒杀时间时区<br><span style="color:#9ca3af;font-size:11px">错误/偏移</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('Mechanism 报错 无法创建')">
+          <span class="q-icon">🔧</span>创建Mechanism<br><span style="color:#9ca3af;font-size:11px">页面报错</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('Scene Task 场次未覆盖')">
+          <span class="q-icon">📋</span>Scene Task<br><span style="color:#9ca3af;font-size:11px">未覆盖所有场次</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('标签语言错误 城市分组')">
+          <span class="q-icon">🌐</span>语言显示错误<br><span style="color:#9ca3af;font-size:11px">标签/城市名</span>
+        </button>
+        <button class="quick-btn" onclick="quickSearch('POI ID 找不到')">
+          <span class="q-icon">🔍</span>POI ID 找不到<br><span style="color:#9ca3af;font-size:11px">或产品读不出</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION: 系统配置 -->
+    <div class="section" id="section-config" data-section="config">
+      <div class="section-header">
+        <div class="section-icon bg-blue">⚙️</div>
+        <h2>系统配置与主题管理</h2>
+        <span class="count">3 个问题</span>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="config" data-keywords="申请 新活动 主题 theme 不存在 找不到">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-blue"></div></div>
+            <div class="card-main">
+              <div class="symptom">如何申请新的 Campaign 活动主题（Theme）？</div>
+              <div class="symptom-tags">
+                <span class="stag tag-blue">系统配置</span>
+                <span class="stag tag-blue">Theme申请</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="fix-block">
+              <div class="block-label">✅ 操作步骤</div>
+              <div class="block-content">
+                <ol>
+                  <li>先在 <strong>Campaign Themes 2.0 表格 Sheet 1</strong> 确认该主题是否已存在。</li>
+                  <li>如果存在 → 直接申请权限，按 SOP-Access of Campaign 2.0 操作，申请时<strong>务必选择对应 Theme</strong>。</li>
+                  <li>如果不存在 → 在 Lark 表单提交申请，系统自动通知 Tian Bu & Vivi Shen。</li>
+                </ol>
+              </div>
+            </div>
+            <div class="note-block">
+              <div class="block-label">⚠️ 注意</div>
+              <div class="block-content">新 Theme 申请每 <strong>周四</strong> 统一提交给开发，请提前至少 <strong>2周</strong> 申请，避免影响活动档期。<br><br>Theme 命名须包含 <strong>地区前缀</strong>，且体现具体内容（目的地/节日/产品），不可使用通用名词（如 "Regional Hero"）。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="config" data-keywords="时区 错误 CA站点 秒杀时间 偏移 UTC Vancouver Toronto">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">手动上传秒杀品后，时区自动变为错误时区（如 CA 站点应为 Vancouver 却变成 Toronto）</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">时区错误</span>
+                <span class="stag tag-amber">秒杀池</span>
+                <span class="stag tag-blue">CA站点</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">手动上传时，系统按站点默认时区处理，CA 站点历史默认时区为 America/Toronto (UTC-5)，而非 America/Vancouver (UTC-7)，导致 3 小时偏差。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 解决方法（优先用方案一）</div>
+              <div class="block-content">
+                <strong>方案一（推荐）：</strong>在 ANT 的 Mechanism 中配置好产品和时区，然后在 Campaign 2.0 秒杀池选择"从 Mechanism 导入"，时区自动对齐，无需手动处理。<br><br>
+                <strong>方案二（临时）：</strong>系统已将 CA 站点默认手动上传时区改为 America/Vancouver，但对<strong>已创建的秒杀池不生效</strong>，需要删除原有产品后重新上传。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="config" data-keywords="Mechanism 报错 创建 无法 错误弹窗 浏览器">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">创建 Mechanism 时页面一直弹出错误，刷新也没用</div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">页面报错</span>
+                <span class="stag tag-red">Mechanism</span>
+                <span class="stag tag-amber">浏览器问题</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">通常与浏览器（Chrome）的插件或缓存冲突有关，非平台稳定性 bug，难以稳定复现。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 逐步排查</div>
+              <div class="block-content">
+                <ol>
+                  <li>尝试 <strong>Chrome 无痕模式</strong>重新操作。</li>
+                  <li>换用 <strong>Safari 浏览器</strong>。</li>
+                  <li>清除 Chrome 缓存和 Cookie 后重试。</li>
+                  <li>更换电脑环境尝试。</li>
+                  <li>以上均无效 → 截图报错信息，联系前端同事排查。</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: 上传报错 -->
+    <div class="section" id="section-upload" data-section="upload">
+      <div class="section-header">
+        <div class="section-icon bg-red">📤</div>
+        <h2>上传报错</h2>
+        <span class="count">5 个问题</span>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="upload" data-keywords="NumberFormatException 上传报错 Excel ID 非数字 空格 中文">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">Excel 上传报错：<span class="code">NumberFormatException</span></div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">上传报错</span>
+                <span class="stag tag-red">Excel</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">Excel 中 <span class="code">productId</span> 或 <span class="code">POI ID</span> 列包含了非数字字符，常见情况：中文字符、前后空格、隐藏格式字符（如从飞书复制时带入的特殊字符）。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 处理步骤</div>
+              <div class="block-content">
+                <ol>
+                  <li>检查 ID 列，确保为<strong>纯数字</strong>，无空格、无中文、无隐藏字符。</li>
+                  <li>可将整列单元格格式设为"文本"或"数字"，然后用"分列"功能重新统一格式。</li>
+                  <li>删除所有说明文字行和示例行，只保留数据行。</li>
+                  <li>重新上传。</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="upload" data-keywords="For input string Required ANT product 上传报错 模板 说明文字">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">Excel 上传报错：<span class="code">For input string: "Required, For ANT product..."</span></div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">上传报错</span>
+                <span class="stag tag-red">Excel</span>
+                <span class="stag tag-amber">模板问题</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">上传的 Excel 文件保留了模板自带的<strong>说明文字行或示例行</strong>，系统尝试将这些文字解析为 ID，触发框架校验失败。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 解决方法</div>
+              <div class="block-content">删除模板中所有说明行、示例行、表头说明，只保留<strong>纯数据行</strong>后重新上传。建议每次从原始空白模板重新填写，而不是在旧文件基础上修改。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="upload" data-keywords="重复 productId POI ID 上传报错 duplicate">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">手动上传选品池产品时报错（ID 重复）</div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">上传报错</span>
+                <span class="stag tag-red">选品池</span>
+                <span class="stag tag-amber">重复ID</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">Excel 中存在重复的 <span class="code">productId</span> 或 <span class="code">POI ID</span>，系统不允许同一产品在同一池中重复出现。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 解决方法</div>
+              <div class="block-content">上传前用 Excel 的"删除重复项"功能检查并去重 ID 列，确保每个 ID 唯一后重新上传。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="upload" data-keywords="营销信息 Promotion Info 卖点 Selling Point 模板 不生效">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">批量上传了营销信息（卖点/Promotion Info），但页面没有生效</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">上传问题</span>
+                <span class="stag tag-amber">营销信息</span>
+                <span class="stag tag-amber">模板用错</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">系统有两个不同的模板，用途完全不同，容易混淆：<br>
+              · <strong>产品上传模板</strong>：仅用于批量添加产品到池中<br>
+              · <strong>营销信息编辑模板</strong>：用于批量编辑卖点（Selling Point），支持按语言（Locale）填写<br><br>
+              用产品上传模板填写营销信息，系统不会识别，因此不生效。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 正确操作</div>
+              <div class="block-content">修改营销信息时，需在秒杀池产品列表页下载专用的 <strong>"批量编辑营销信息"模板</strong>，填写后上传，不能用产品上传模板代替。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="upload" data-keywords="POI ID 多个 Resource ID 上传方法 一对多">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-blue"></div></div>
+            <div class="card-main">
+              <div class="symptom">一个 POI ID 对应多个 Resource ID，应该怎么上传？</div>
+              <div class="symptom-tags">
+                <span class="stag tag-blue">上传方法</span>
+                <span class="stag tag-blue">ID配置</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="fix-block">
+              <div class="block-label">✅ 正确填写方式</div>
+              <div class="block-content">在 Excel 模板中，将同一 POI ID 下的不同 Resource ID <strong>分成多行</strong>填写，每行一个 Resource ID，不要合并在同一行内。<br><br>示例：<br>
+              <span class="code">POI_12345 | Resource_001</span><br>
+              <span class="code">POI_12345 | Resource_002</span><br>
+              <span class="code">POI_12345 | Resource_003</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: 选品池异常 -->
+    <div class="section" id="section-pool" data-section="pool">
+      <div class="section-header">
+        <div class="section-icon bg-amber">🗂️</div>
+        <h2>选品池 / 秒杀池异常</h2>
+        <span class="count">4 个问题</span>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="pool" data-keywords="选品池 无产品 数量少 空 product pool empty">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">选品池里没有产品，或产品数量比预期少很多</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">选品池</span>
+                <span class="stag tag-amber">产品缺失</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 常见原因（按顺序排查）</div>
+              <div class="block-content">
+                <ol>
+                  <li><strong>数据同步延迟：</strong>从 BD 提报到 Campaign 2.0 显示，通常有 <strong>T+1（1-2天）延迟</strong>，选品池数据每天凌晨更新，当天提报当天看不到。</li>
+                  <li><strong>选品规则命中过少：</strong>Rule 1 和 Rule 2 是 <strong>OR（或）关系</strong>，不是 AND 关系。如果设置的城市/星级条件本身匹配产品就少，结果自然少。</li>
+                  <li><strong>页面内去重：</strong>同一活动页面下，多个选品池命中了相同的产品，系统去重后某些池子的显示数量会减少。这是正常逻辑，不是 bug。</li>
+                  <li><strong>未选 Applicable Region tag：</strong>建池时没有勾选对应市场的 Applicable Region 筛选条件，导致产品被过滤。</li>
+                </ol>
+              </div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 处理方法</div>
+              <div class="block-content">
+                <ol>
+                  <li>先等 1-2 天观察数据是否同步，紧急情况可联系研发手动触发同步。</li>
+                  <li>检查 Rule 条件设置，适当放宽筛选范围。</li>
+                  <li>建池时必须勾选 <strong>Applicable Region</strong> tag（POI 产品选 "for POI Product"，Activity 产品选 "for Activity Product"）。</li>
+                  <li>如果需要两个条件的交集（AND），将所有条件合并在 Rule 1 中，或在线下处理好名单后通过 Rule 2 手动上传。</li>
+                </ol>
+              </div>
+            </div>
+            <div class="note-block">
+              <div class="block-label">⚠️ 数量显示注意</div>
+              <div class="block-content">Pool List 页面显示的 Product QTY 数字有<strong>已知计算问题，不准确</strong>。请点进具体 Pool 内部查看实际产品列表，以实际列表为准。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="pool" data-keywords="Scene Task 场次 未覆盖 session 不全 秒杀池">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">秒杀池的订阅任务（Scene Task）没有覆盖所有场次（Session）</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">秒杀池</span>
+                <span class="stag tag-amber">Scene Task</span>
+                <span class="stag tag-amber">场次缺失</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">秒杀池创建时间早于 "Scene Task" 功能上线时间，导致任务生成时场次信息不完整。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 解决方法</div>
+              <div class="block-content">
+                <strong>方法一：</strong>重新创建该秒杀池。<br><br>
+                <strong>方法二：</strong>删除池内所有产品后重新添加，系统会为新的产品列表生成完整的 Scene Task。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="pool" data-keywords="产品上传成功 页面不展示 不显示 秒杀 Hook Resource">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">秒杀产品上传成功，但活动页面上不显示</div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">产品不显示</span>
+                <span class="stag tag-red">秒杀池</span>
+                <span class="stag tag-red">页面异常</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 可能原因（逐一排查）</div>
+              <div class="block-content">
+                <ol>
+                  <li><strong>Hook Resource ID 无数据：</strong>接口未返回对应资源数据。</li>
+                  <li><strong>产品无可售站点：</strong>该产品在目标市场（Locale）没有对应的可售信息，未正确提报。</li>
+                  <li><strong>页面内去重：</strong>同一页面多个池子命中相同产品，去重后该产品未出现在当前池。</li>
+                </ol>
+              </div>
+            </div>
+            <div class="escalate-block">
+              <div class="block-label">📞 升级处理</div>
+              <div class="block-content">自查后仍无法解决，需提供以下信息联系研发排查：<br>
+              · 具体的 <strong>Resource ID</strong><br>
+              · 出问题的 <strong>页面链接</strong><br>
+              · 产品所在的 <strong>目标市场（Locale）</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="pool" data-keywords="Pool ID Campaign ID Slot ID Foxpage 混用 两种方式">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-blue"></div></div>
+            <div class="card-main">
+              <div class="symptom">Foxpage 上配置产品时，Pool ID 和 Campaign ID+Slot ID 可以混用吗？</div>
+              <div class="symptom-tags">
+                <span class="stag tag-blue">Foxpage配置</span>
+                <span class="stag tag-blue">Pool ID</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 注意</div>
+              <div class="block-content">同一个页面组件只能用<strong>一种方式</strong>配置产品，不可混用：<br>
+              · <strong>方式一：</strong>Pool ID（Campaign 2.0 方式）<br>
+              · <strong>方式二：</strong>Campaign ID + Slot ID（Campaign 1.0 方式）<br><br>
+              混用会导致产品展示逻辑互相覆盖，出现不可预期的显示问题。</div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 正确做法</div>
+              <div class="block-content">从 1.0 迁移到 2.0 时，同一组件必须<strong>全切</strong>，不能保留一半旧配置。建议迁移前做完整的组件清单，逐一确认。</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: ID 匹配 -->
+    <div class="section" id="section-id" data-section="id">
+      <div class="section-header">
+        <div class="section-icon bg-purple">🔑</div>
+        <h2>POI / Resource ID 匹配问题</h2>
+        <span class="count">3 个问题</span>
+      </div>
+      <div class="note-block" style="margin-bottom:12px;padding:12px 16px;">
+        <div class="block-label">🎯 排查 ID 问题前，先备好这三样</div>
+        <div class="block-content">1. 具体的 <strong>POI ID / Product ID / Resource ID</strong>&nbsp;&nbsp;2. 目标市场 <strong>Locale</strong>&nbsp;&nbsp;3. 相关的选品池或秒杀池<strong>链接</strong></div>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="id" data-keywords="POI ID 找不到 读不出 产品 系统没有 not found">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-purple"></div></div>
+            <div class="card-main">
+              <div class="symptom">POI ID 在系统中找不到，或读不出产品</div>
+              <div class="symptom-tags">
+                <span class="stag tag-purple">ID问题</span>
+                <span class="stag tag-purple">POI</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 常见原因</div>
+              <div class="block-content">
+                <ol>
+                  <li><strong>未在目标市场提报：</strong>该 ID 可能在其他市场（如 KR）有招商数据，但没有在你的目标市场（如 JP）提报，系统查询该市场时自然找不到。</li>
+                  <li><strong>ID 类型不匹配：</strong>产品是 Activity 类型，应使用 <strong>Product ID</strong> 上传，但误用了 POI ID，或反之。</li>
+                  <li><strong>数据同步延迟：</strong>刚提报的数据还未同步到查询层（T+1）。</li>
+                </ol>
+              </div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 排查步骤</div>
+              <div class="block-content">
+                <ol>
+                  <li>确认该产品是 <strong>Hotel/POI 类型</strong>还是 <strong>Activity 类型</strong>，对应使用正确的 ID 字段。</li>
+                  <li>确认该产品已在<strong>目标市场正确提报</strong>。</li>
+                  <li>如果刚提报，等待 1-2 天数据同步后再查。</li>
+                  <li>仍有问题 → 提供 ID + Locale + 池链接联系研发排查。</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="id" data-keywords="Activity Product ID POI ID 区别 类型 不匹配">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-purple"></div></div>
+            <div class="card-main">
+              <div class="symptom">Activity 产品和 POI 产品，分别用什么 ID 上传？</div>
+              <div class="symptom-tags">
+                <span class="stag tag-purple">ID配置</span>
+                <span class="stag tag-blue">ANT</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="fix-block">
+              <div class="block-label">✅ ID 对应规则</div>
+              <div class="block-content">
+                <strong>POI 产品（景点/酒店）：</strong>填写 <span class="code">POI ID</span> + <span class="code">Resource ID</span>（两个都需要）<br><br>
+                <strong>Activity 产品（活动/票务）：</strong>只填写 <span class="code">Product ID</span>（不需要 Resource ID）<br><br>
+                用错类型会导致系统找不到产品或数据缺失，这是最常见的 ID 相关问题之一。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="id" data-keywords="Grading 评级 报错 region 缺失 打标">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-green"></div></div>
+            <div class="card-main">
+              <div class="symptom">Grading（评级）看板报错"region 缺失"</div>
+              <div class="symptom-tags">
+                <span class="stag tag-green">已修复</span>
+                <span class="stag tag-purple">Grading</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="fix-block">
+              <div class="block-label">✅ 状态</div>
+              <div class="block-content">此问题为前端展示 bug（列表数据 region 字段缺失），<strong>已由研发修复</strong>。如果还在报这个错，请截图提供页面链接联系前端同事，确认修复是否覆盖你的环境。</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: 页面展示 -->
+    <div class="section" id="section-display" data-section="display">
+      <div class="section-header">
+        <div class="section-icon bg-red">🖥️</div>
+        <h2>页面展示异常</h2>
+        <span class="count">4 个问题</span>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="display" data-keywords="价格 优惠价 高于 划线价 秒杀 异常 大于">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">页面上秒杀产品的优惠价显示高于灰色划线价</div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">价格异常</span>
+                <span class="stag tag-red">秒杀</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">商品侧未维护该 Resource ID 的<strong>划线价（门市价/原始卖价）</strong>，导致系统无法正确显示价格对比关系。这是商品数据问题，不是 Campaign 2.0 平台问题。</div>
+            </div>
+            <div class="escalate-block">
+              <div class="block-label">📞 处理路径</div>
+              <div class="block-content">提供具体的 <strong>Resource ID</strong>，反馈给商品团队核查并补充划线价。可通过研发同事转发至商品团队处理。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="display" data-keywords="标签 语言 错误 英文 中文 折扣 locale">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">页面组件标签显示错误语言（如英文站点显示中文"折扣"）</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">语言问题</span>
+                <span class="stag tag-amber">前端</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">前端组件的多语言配置未覆盖该站点的语言，或配置错误（如 AU 站英文页面的"折扣"标签被错误配置为中文）。</div>
+            </div>
+            <div class="escalate-block">
+              <div class="block-label">📞 处理路径</div>
+              <div class="block-content">提供出现问题的 <strong>Foxpage 预览链接</strong>，联系前端或翻译配置负责人检查并修正多语言配置。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="display" data-keywords="城市分组 英文 日文 语言 不统一 GEO 翻译">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-amber"></div></div>
+            <div class="card-main">
+              <div class="symptom">城市分组名称显示语言不统一（部分英文、部分目标语言混杂）</div>
+              <div class="symptom-tags">
+                <span class="stag tag-amber">城市分组</span>
+                <span class="stag tag-amber">翻译缺失</span>
+                <span class="stag tag-amber">GEO</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">GEO 系统未返回这些城市的目标语言翻译值，前端以英文兜底展示，导致语言不统一（非 bug，是 GEO 数据缺口）。</div>
+            </div>
+            <div class="escalate-block">
+              <div class="block-label">📞 处理路径</div>
+              <div class="block-content">联系 <strong>GEO 数据团队</strong>，提供缺少翻译的城市列表和目标语言，请其补全对应翻译值。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="display" data-keywords="数据同步 非实时 T+1 延迟 凌晨 不更新">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-blue"></div></div>
+            <div class="card-main">
+              <div class="symptom">后台数据更新了，但前端页面上还没变化</div>
+              <div class="symptom-tags">
+                <span class="stag tag-blue">数据同步</span>
+                <span class="stag tag-blue">延迟</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 系统同步逻辑</div>
+              <div class="block-content">
+                · <strong>选品池、评级数据：</strong>T+1，每天凌晨更新，不是实时的<br>
+                · <strong>Price Monitor 价格数据：</strong>设置后次日才有，活动开始后升级为每天 3 次更新<br>
+                · <strong>Product Pool 计算：</strong>修改规则后重新计算，产品越多等待越长，完成后 TP 通知
+              </div>
+            </div>
+            <div class="fix-block">
+              <div class="block-label">✅ 处理方法</div>
+              <div class="block-content">等待 1-2 天自然同步。如果紧急，可联系研发同事<strong>手动触发同步任务</strong>加速处理。</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: QA -->
+    <div class="section" id="section-qa" data-section="qa">
+      <div class="section-header">
+        <div class="section-icon bg-green">✅</div>
+        <h2>QA 测试问题</h2>
+        <span class="count">2 个问题</span>
+      </div>
+      <div class="cards">
+
+        <div class="card" data-section="qa" data-keywords="QA 报错 无原因 空 失败 预览正常">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-red"></div></div>
+            <div class="card-main">
+              <div class="symptom">QA 测试结果显示失败，但错误详情为空，且活动页面预览产品展示正常</div>
+              <div class="symptom-tags">
+                <span class="stag tag-red">QA报错</span>
+                <span class="stag tag-amber">原因未知</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="reason-block">
+              <div class="block-label">🔍 原因</div>
+              <div class="block-content">QA 系统对某些商品底层状态的检查提示不完善，错误信息无法准确展示。此类问题通常涉及商品侧的底层数据，而非 Campaign 2.0 配置问题。</div>
+            </div>
+            <div class="escalate-block">
+              <div class="block-label">📞 处理路径</div>
+              <div class="block-content">
+                <ol>
+                  <li>先联系对应 <strong>BD</strong> 确认商品状态是否正常。</li>
+                  <li>如 BD 确认无问题，将问题转至 <strong>QA 专项排障群</strong>，由商品研发同学进行深度排查。</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-section="qa" data-keywords="QA 通过 上线 提供信息 高效提问">
+          <button class="card-trigger" onclick="toggleCard(this)">
+            <div class="card-type"><div class="type-dot dot-blue"></div></div>
+            <div class="card-main">
+              <div class="symptom">遇到新问题时，如何在群里高效提问，快速得到解答？</div>
+              <div class="symptom-tags">
+                <span class="stag tag-blue">提问技巧</span>
+              </div>
+            </div>
+            <div class="card-toggle">+</div>
+          </button>
+          <div class="card-body">
+            <div class="fix-block">
+              <div class="block-label">✅ 提问四要素（缺一不可）</div>
+              <div class="block-content">
+                <ol>
+                  <li><strong>系统链接：</strong>出问题的 Campaign 2.0 配置页链接，或 Foxpage 预览链接</li>
+                  <li><strong>资源信息：</strong>具体的 POI ID、Product ID、Resource ID、Pool ID 或 Campaign ID</li>
+                  <li><strong>问题截图：</strong>完整的报错信息截图或页面异常截图</li>
+                  <li><strong>操作描述：</strong>你做了什么操作、期望看到什么结果、实际看到了什么</li>
+                </ol>
+                <br>提供这四样信息，通常能将问题解决时间缩短 50% 以上。
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION: 最佳实践 -->
+    <div class="section" id="section-best" data-section="best">
+      <div class="section-header">
+        <div class="section-icon bg-blue">⭐</div>
+        <h2>预防性最佳实践</h2>
+      </div>
+      <div class="best-practice">
+        <div class="bp-header"><span>📤</span><h3>数据准备与上传</h3></div>
+        <div class="bp-body">
+          <ul>
+            <li>上传前确保 ID 列为纯数字，无空格、无中文、无隐藏字符，用"分列"功能统一格式</li>
+            <li>区分"产品上传模板"和"营销信息编辑模板"，不要混用</li>
+            <li>上传前用"删除重复项"检查 ID 列，去除重复行</li>
+            <li>秒杀产品优先在 ANT Mechanism 配置好后再导入，避免手动上传引发时区和 Session 问题</li>
+          </ul>
+        </div>
+      </div>
+      <div class="best-practice" style="margin-top:8px">
+        <div class="bp-header"><span>🗂️</span><h3>选品池配置</h3></div>
+        <div class="bp-body">
+          <ul>
+            <li>建池时必须勾选 Applicable Region tag，确保产品在目标市场可售</li>
+            <li>理解 Rule 1 与 Rule 2 是 OR 关系，需要交集时在 Rule 1 中合并所有条件</li>
+            <li>以 Pool 内部实际列表为准，不要依赖 Pool List 页面的 QTY 数字</li>
+            <li>修改规则后等待 TP 通知计算完成，再配置 Foxpage，避免上线时产品为空</li>
+          </ul>
+        </div>
+      </div>
+      <div class="best-practice" style="margin-top:8px">
+        <div class="bp-header"><span>⏱️</span><h3>时间节点意识</h3></div>
+        <div class="bp-body">
+          <ul>
+            <li>BD 提报后等 1-2 天再操作，选品池数据每天凌晨更新（T+1）</li>
+            <li>Price Monitor 设置后次日才有数据，活动前至少提前 1 天设置</li>
+            <li>新 Theme 申请每周四提交，活动前 2 周以上申请</li>
+            <li>Pool 规则更新后在活动上线前至少 1 天操作，留出计算时间</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: 找谁处理 -->
+    <div class="section" id="section-escalate" data-section="escalate">
+      <div class="section-header">
+        <div class="section-icon bg-purple">📞</div>
+        <h2>找谁处理</h2>
+      </div>
+      <div class="escalate-table">
+        <div class="et-row">
+          <div class="et-type">⚙️ 系统配置 / Theme 申请</div>
+          <div class="et-action">联系 <strong>Tian Bu / Vivi Shen</strong>（Collection Theme 找 Vivi Shen）</div>
+        </div>
+        <div class="et-row">
+          <div class="et-type">🔄 数据同步 / 手动触发</div>
+          <div class="et-action">联系研发同事（<strong>Junfeng Zhang / Tian Bu</strong>）手动触发同步任务</div>
+        </div>
+        <div class="et-row">
+          <div class="et-type">🔑 ID 匹配 / 后台报错</div>
+          <div class="et-action">提供 ID + Locale + 链接，联系 <strong>研发排查</strong></div>
+        </div>
+        <div class="et-row">
+          <div class="et-type">🖥️ 页面展示 / 前端问题</div>
+          <div class="et-action">提供 Foxpage 链接，联系<strong>前端负责同事</strong></div>
+        </div>
+        <div class="et-row">
+          <div class="et-type">💰 商品价格 / QA 深层报错</div>
+          <div class="et-action">转至 <strong>QA 专项排障群</strong>，由商品研发支持</div>
+        </div>
+        <div class="et-row">
+          <div class="et-type">🌐 多语言 / 城市翻译</div>
+          <div class="et-action">联系 <strong>GEO 数据团队</strong>或前端国际化配置负责人</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+// ====== DATA: all cards ======
+let allCards = [];
+document.querySelectorAll('.card').forEach(card => {
+  allCards.push(card);
+});
+
+// ====== TOGGLE CARD ======
+function toggleCard(btn) {
+  const card = btn.closest('.card');
+  card.classList.toggle('open');
+}
+
+// ====== QUICK SEARCH ======
+function quickSearch(term) {
+  document.getElementById('search').value = term;
+  doSearch(term);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ====== SEARCH ======
+const searchInput = document.getElementById('search');
+const searchResultsSection = document.getElementById('search-results-section');
+const searchResultsList = document.getElementById('search-results-list');
+const resultsHeader = document.getElementById('results-header');
+const noResults = document.getElementById('no-results');
+const quickEntry = document.getElementById('quick-entry-section');
+
+searchInput.addEventListener('input', e => {
+  const q = e.target.value.trim();
+  if (q.length === 0) {
+    clearSearch();
+  } else {
+    doSearch(q);
+  }
+});
+
+function doSearch(q) {
+  const terms = q.toLowerCase().split(/\s+/);
+  const matched = [];
+
+  allCards.forEach(card => {
+    const symptom = (card.querySelector('.symptom')?.textContent || '').toLowerCase();
+    const keywords = (card.dataset.keywords || '').toLowerCase();
+    const body = (card.querySelector('.card-body')?.textContent || '').toLowerCase();
+    const haystack = symptom + ' ' + keywords + ' ' + body;
+
+    const score = terms.filter(t => haystack.includes(t)).length;
+    if (score > 0) matched.push({ card, score, symptom });
+  });
+
+  matched.sort((a, b) => b.score - a.score);
+
+  // Show search UI
+  searchResultsSection.classList.add('active');
+  quickEntry.style.display = 'none';
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+
+  searchResultsList.innerHTML = '';
+  noResults.classList.add('hidden');
+
+  if (matched.length === 0) {
+    noResults.classList.remove('hidden');
+    resultsHeader.innerHTML = `搜索 "<strong>${q}</strong>" · 未找到匹配结果`;
+  } else {
+    resultsHeader.innerHTML = `搜索 "<strong>${q}</strong>" · 找到 <strong>${matched.length}</strong> 个相关问题`;
+    matched.forEach(({ card }) => {
+      const clone = card.cloneNode(true);
+      // Highlight keyword in symptom
+      const symptomEl = clone.querySelector('.symptom');
+      if (symptomEl) {
+        let html = symptomEl.innerHTML;
+        terms.forEach(t => {
+          if (t.length > 1) {
+            const re = new RegExp(`(${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            html = html.replace(re, '<mark>$1</mark>');
+          }
+        });
+        symptomEl.innerHTML = html;
+      }
+      // Re-attach toggle
+      const btn = clone.querySelector('.card-trigger');
+      if (btn) btn.onclick = () => toggleCard(btn);
+      searchResultsList.appendChild(clone);
+    });
+  }
+}
+
+function clearSearch() {
+  searchResultsSection.classList.remove('active');
+  quickEntry.style.display = '';
+  noResults.classList.add('hidden');
+  const activeNav = document.querySelector('.nav-item.active');
+  const section = activeNav?.dataset?.section || 'all';
+  showSections(section);
+}
+
+// ====== NAV FILTER ======
+function filterSection(section, el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+
+  // Clear search
+  searchInput.value = '';
+  searchResultsSection.classList.remove('active');
+  noResults.classList.add('hidden');
+
+  showSections(section);
+}
+
+function showSections(section) {
+  if (section === 'best' || section === 'escalate') {
+    quickEntry.style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => {
+      s.style.display = s.dataset.section === section ? '' : 'none';
+    });
+  } else if (section === 'all') {
+    quickEntry.style.display = '';
+    document.querySelectorAll('.section').forEach(s => s.style.display = '');
+  } else {
+    quickEntry.style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => {
+      s.style.display = s.dataset.section === section ? '' : 'none';
+    });
+  }
+}
+
+// Initial state
+showSections('all');
+</script>
+</body>
+</html>
